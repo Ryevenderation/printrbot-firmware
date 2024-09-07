@@ -249,12 +249,11 @@
 #endif
 
 // The pullups are needed if you directly connect a mechanical endswitch between the signal and ground pins.
-// These are used for switching between Normally Connected (NC) or Normally open (NO) endstops
 const bool X_MIN_ENDSTOP_INVERTING = false; // ACTIVO set to true to invert the logic of the endstop.
-const bool Y_MIN_ENDSTOP_INVERTING = false; // set to true to invert the logic of the endstop.
+const bool Y_MIN_ENDSTOP_INVERTING = true; // set to true to invert the logic of the endstop.
 const bool Z_MIN_ENDSTOP_INVERTING = false; //ACTIVO set to true to invert the logic of the endstop.
 const bool X_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of the endstop.
-const bool Y_MAX_ENDSTOP_INVERTING = true; //ACTIVO set to true to invert the logic of the endstop.
+const bool Y_MAX_ENDSTOP_INVERTING = false; //ACTIVO set to true to invert the logic of the endstop.
 const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of the endstop.
 const bool E_MIN_ENDSTOP_INVERTING = true; // set to true to invert the logic of the endstop.
 const bool E_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of the endstop.
@@ -289,7 +288,7 @@ const bool E_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 // ENDSTOP SETTINGS:
 // Sets direction of endstops when homing; 1=MAX, -1=MIN
 #define X_HOME_DIR -1
-#define Y_HOME_DIR -1
+#define Y_HOME_DIR 1
 #if defined(PB_MCF)
   #define Z_HOME_DIR 1
 #elif defined(PB_BOCUSINI)
