@@ -493,7 +493,7 @@
   #endif
   
   #if MOTHERBOARD == 35
-    #define CONTROLLERFAN_PIN  10 //Pin used for the fan to cool controller
+    #define CONTROLLERFAN_PIN  8 //Pin used for the fan to cool controller
   #endif
 
   #define PS_ON_PIN          12
@@ -505,7 +505,7 @@
   #endif
 
   #if MOTHERBOARD == 35
-    #define HEATER_0_PIN       8
+    #define HEATER_0_PIN       10
   #else
     #define HEATER_0_PIN       10   // EXTRUDER 1
   #endif

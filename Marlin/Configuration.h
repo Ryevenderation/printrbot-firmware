@@ -36,7 +36,7 @@
 // 84 = Printrboard rev F (AT90USB1286)
 
 #ifndef MOTHERBOARD
-#define MOTHERBOARD 37
+#define MOTHERBOARD 35
 #endif
 
 // Define this to set a custom name for your generic Mendel,
@@ -88,9 +88,9 @@
 // 55 is 100k thermistor - ATC Semitec 104GT-2 (Used in ParCan & J-Head) (1k pullup)
 
 #define TEMP_SENSOR_0 1
-#define TEMP_SENSOR_1 1
-#define TEMP_SENSOR_2 1
-#define TEMP_SENSOR_BED 7
+#define TEMP_SENSOR_1 0
+#define TEMP_SENSOR_2 0
+#define TEMP_SENSOR_BED 0
 
 // This makes temp sensor 1 a redundant sensor for sensor 0. If the temperatures difference between these sensors is to high the print will be aborted.
 //#define TEMP_SENSOR_1_AS_REDUNDANT
@@ -117,7 +117,7 @@
 
 // When temperature exceeds max temp, your heater will be switched off.
 // This feature exists to protect your hotend from overheating accidentally, but *NOT* from thermistor short/failure!
-// You should use MINTEMP for thermistor short/failure protection.
+// You should use MINTEMP fors thermistor short/failure protection.
 
 #if defined(PB_MCF)
   #define HEATER_0_MAXTEMP 100
@@ -127,6 +127,7 @@
   #define HEATER_0_MAXTEMP 300
 #endif
 
+#define HEATER_0_MAXTEMP 285
 #define HEATER_1_MAXTEMP 285
 #define HEATER_2_MAXTEMP 285
 #define BED_MAXTEMP 150
@@ -248,11 +249,12 @@
 #endif
 
 // The pullups are needed if you directly connect a mechanical endswitch between the signal and ground pins.
+// These are used for switching between Normally Connected (NC) or Normally open (NO) endstops
 const bool X_MIN_ENDSTOP_INVERTING = false; // ACTIVO set to true to invert the logic of the endstop.
-const bool Y_MIN_ENDSTOP_INVERTING = true; // set to true to invert the logic of the endstop.
+const bool Y_MIN_ENDSTOP_INVERTING = false; // set to true to invert the logic of the endstop.
 const bool Z_MIN_ENDSTOP_INVERTING = false; //ACTIVO set to true to invert the logic of the endstop.
 const bool X_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of the endstop.
-const bool Y_MAX_ENDSTOP_INVERTING = false; //ACTIVO set to true to invert the logic of the endstop.
+const bool Y_MAX_ENDSTOP_INVERTING = true; //ACTIVO set to true to invert the logic of the endstop.
 const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of the endstop.
 const bool E_MIN_ENDSTOP_INVERTING = true; // set to true to invert the logic of the endstop.
 const bool E_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of the endstop.
@@ -278,16 +280,16 @@ const bool E_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define DISABLE_E false // For all extruders
 
 #define INVERT_X_DIR true    // for Mendel set to false, for Orca set to true
-#define INVERT_Y_DIR true    // for Mendel set to true, for Orca set to false
+#define INVERT_Y_DIR false    // for Mendel set to true, for Orca set to false
 #define INVERT_Z_DIR true     // for Mendel set to false, for Orca set to true
-#define INVERT_E0_DIR false   // for direct drive extruder v9 set to true, for geared extruder set to false
+#define INVERT_E0_DIR true   // for direct drive extruder v9 set to true, for geared extruder set to false
 #define INVERT_E1_DIR false    // for direct drive extruder v9 set to true, for geared extruder set to false
 #define INVERT_E2_DIR false   // for direct drive extruder v9 set to true, for geared extruder set to false
 
 // ENDSTOP SETTINGS:
 // Sets direction of endstops when homing; 1=MAX, -1=MIN
 #define X_HOME_DIR -1
-#define Y_HOME_DIR 1
+#define Y_HOME_DIR -1
 #if defined(PB_MCF)
   #define Z_HOME_DIR 1
 #elif defined(PB_BOCUSINI)
@@ -340,7 +342,7 @@ const bool E_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define Z_MAX_LENGTH (base_max_pos[2] - base_min_pos[2])
 //============================= Bed Auto Leveling ===========================
 
-  #define ENABLE_AUTO_BED_LEVELING // Delete the comment to enable (remove // at the start of the line)
+#define ENABLE_AUTO_BED_LEVELING // Delete the comment to enable (remove // at the start of the line)
 
 #ifdef ENABLE_AUTO_BED_LEVELING
 
@@ -418,12 +420,12 @@ const bool E_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 
 // default settings
 #if defined(PB_MCF)
-  #define DEFAULT_AXIS_STEPS_PER_UNIT   {80,80,406,406}
+  #define DEFAULT_AXIS_STEPS_PER_UNIT   {80,80,2020,94.6}
   #define DEFAULT_MAX_FEEDRATE          {125, 125, 12, 14}    // (mm/sec)
-  #define DEFAULT_MAX_ACCELERATION      {200,200,30,3000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
+  #define DEFAULT_MAX_ACCELERATION      {2000,2000,100,10000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
 #elif defined(PB_BOCUSINI)
   #define DEFAULT_AXIS_STEPS_PER_UNIT   {80,80,2020,6666}
-  #define DEFAULT_MAX_FEEDRATE          {125, 125, 5, 14}
+  #define DEFAULT_MAX_FEEDRATE          {150, 150, 7, 40}
   #define DEFAULT_MAX_ACCELERATION      {200,200,30,3000}
 #else
   #define DEFAULT_AXIS_STEPS_PER_UNIT   {80,80,2020,96}
@@ -431,7 +433,7 @@ const bool E_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
   #define DEFAULT_MAX_ACCELERATION      {2000,2000,30,10000}
 #endif
 
-#define DEFAULT_ACCELERATION          3000    // X, Y, Z and E max acceleration in mm/s^2 for printing moves
+#define DEFAULT_ACCELERATION          1500    // X, Y, Z and E max acceleration in mm/s^2 for printing moves
 #define DEFAULT_RETRACT_ACCELERATION  3000   // X, Y, Z and E max acceleration in mm/s^2 for retracts
 
 // Offset of the extruders (uncomment if using more than one and relying on firmware to position when changing).
@@ -441,9 +443,9 @@ const bool E_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 // #define EXTRUDER_OFFSET_Y {0.0, 5.00}  // (in mm) for each extruder, offset of the hotend on the Y axis
 
 // The speed change that does not require acceleration (i.e. the software might assume it can be done instantaneously)
-#define DEFAULT_XYJERK                20.0    // (mm/sec)
-#define DEFAULT_ZJERK                 0.4     // (mm/sec)
-#define DEFAULT_EJERK                 5.0    // (mm/sec)
+#define DEFAULT_XYJERK                10.0    // (mm/sec)
+#define DEFAULT_ZJERK                 0.3     // (mm/sec)
+#define DEFAULT_EJERK                 4    // (mm/sec)
 
 //===========================================================================
 //=============================Additional Features===========================
@@ -473,7 +475,7 @@ const bool E_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 //LCD and SD support
 //#define ULTRA_LCD  //general lcd support, also 16x2
 //#define DOGLCD  // Support for SPI LCD 128x64 (Controller ST7565R graphic Display Family)
-#define SDSUPPORT // Enable SD Card Support in Hardware Console
+//#define SDSUPPORT // Enable SD Card Support in Hardware Console
 //#define SDSLOW // Use slower SD transfer mode (not normally needed - uncomment if you're getting volume init error)
 //#define ENCODER_PULSES_PER_STEP 1 // Increase if you have a high resolution encoder
 //#define ENCODER_STEPS_PER_MENU_ITEM 5 // Set according to ENCODER_PULSES_PER_STEP or your liking
@@ -492,7 +494,7 @@ const bool E_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 
 // The RepRapDiscount Smart Controller (white PCB)
 // http://reprap.org/wiki/RepRapDiscount_Smart_Controller
-//#define REPRAP_DISCOUNT_SMART_CONTROLLER
+//#define falseAP_DISCOUNT_SMART_CONTROLLERLCD
 
 // The GADGETS3D G3D LCD/SD Controller (blue PCB)
 // http://reprap.org/wiki/RAMPS_1.3/1.4_GADGETS3D_Shield_with_Panel
@@ -502,7 +504,7 @@ const bool E_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 // http://reprap.org/wiki/RepRapDiscount_Full_Graphic_Smart_Controller
 //
 // ==> REMEMBER TO INSTALL U8glib to your ARDUINO library folder: http://code.google.com/p/u8glib/wiki/u8glib
-//#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
+#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
 
 // The RepRapWorld REPRAPWORLD_KEYPAD v1.1
 // http://reprapworld.com/?products_details&products_id=202&cPath=1591_1626
